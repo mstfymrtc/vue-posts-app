@@ -3,7 +3,7 @@
     <v-toolbar :clipped-left="clipped" fixed app>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn icon @click="logOut">
+      <v-btn v-if="isInProtectedRoute()" icon @click="logOut">
         <v-icon>logout</v-icon>
       </v-btn>
     </v-toolbar>
@@ -12,7 +12,6 @@
         <nuxt />
       </v-container>
     </v-content>
-  
   </v-app>
 </template>
 
@@ -36,10 +35,16 @@ export default {
       title: 'Posts App'
     }
   },
+
   methods: {
     logOut() {
       sessionStorage.removeItem('token')
       this.$router.push('/login')
+      this.isLoggedIn = false
+    },
+    isInProtectedRoute() {
+      //auth middleware kullanmak gerekiyor, temp çözüm!
+      return this.$route.path == '/app' ? true : false
     }
   }
 }
