@@ -1,9 +1,10 @@
 <template>
   <v-app dark>
+    <!-- will be hidden when logged in -->
     <v-toolbar :clipped-left="clipped" fixed app>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn v-if="isInProtectedRoute()" icon @click="logOut">
+      <v-btn icon @click="logOut">
         <v-icon>logout</v-icon>
       </v-btn>
     </v-toolbar>
@@ -40,11 +41,6 @@ export default {
     logOut() {
       localStorage.removeItem('token')
       this.$router.push('/login')
-      this.isLoggedIn = false
-    },
-    isInProtectedRoute() {
-      //auth middleware kullanmak gerekiyor, temp çözüm!
-      return this.$route.path == '/app' ? true : false
     }
   }
 }
