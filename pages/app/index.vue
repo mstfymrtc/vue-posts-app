@@ -9,7 +9,7 @@
       </v-card-text>
     </v-card>
     <v-card class="mb-3" width="100%">
-      <v-data-table :headers="headers" :items="listData" class="elevation-0">
+      <v-data-table disable-initial-sort :headers="headers" :items="listData" class="elevation-0">
         <template slot="items" slot-scope="props">
           <tr>
             <td>
@@ -71,8 +71,16 @@ export default {
           text: 'Creation Time',
           value: 'created_at'
         },
-        { text: 'Content', value: 'content' },
-        { text: 'Action', value: 'action' }
+        {
+          text: 'Content',
+          value: 'content',
+          sortable: false
+        },
+        {
+          text: 'Action',
+          value: 'action',
+          sortable: false
+        }
       ]
     }
   },
@@ -136,7 +144,7 @@ export default {
       })
         .then(_ => {
           // this.$router.push('/app')
-          this.listData = [...this.listData, _.data.post]
+          this.listData = [_.data.post, ...this.listData]
           this.content = ''
         })
         .catch(err => {
