@@ -25,6 +25,13 @@ export default {
       password: ''
     }
   },
+  mounted() {
+    //auth middleware kullanılması gerekiyor, temp çözüm
+    const token = localStorage.getItem('token')
+    if (token) {
+      this.$router.push('/app')
+    }
+  },
   methods: {
     registerUser() {
       const { fullName, userName, password } = this
@@ -40,7 +47,7 @@ export default {
       })
         .then(res => {
           console.log(res)
-          sessionStorage.setItem('token', res.data.user.token)
+          localStorage.setItem('token', res.data.user.token)
           this.$router.push('/app')
         })
         .catch(err => {

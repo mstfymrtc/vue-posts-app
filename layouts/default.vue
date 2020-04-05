@@ -38,7 +38,7 @@ export default {
 
   methods: {
     logOut() {
-      sessionStorage.removeItem('token')
+      localStorage.removeItem('token')
       this.$router.push('/login')
       this.isLoggedIn = false
     },

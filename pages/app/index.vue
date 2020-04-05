@@ -9,7 +9,13 @@
       </v-card-text>
     </v-card>
     <v-card class="mb-3" width="100%">
-      <v-data-table disable-initial-sort :headers="headers" :items="listData" class="elevation-0">
+      <v-data-table
+        :rows-per-page-items="[10, 20, 30, 40]"
+        disable-initial-sort
+        :headers="headers"
+        :items="listData"
+        class="elevation-0"
+      >
         <template slot="items" slot-scope="props">
           <tr>
             <td>
@@ -86,16 +92,16 @@ export default {
   },
   mounted() {
     //auth middleware kullanılması gerekiyor, temp çözüm
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
     if (!token) {
-      sessionStorage.removeItem('token')
+      localStorage.removeItem('token')
       this.$router.push('/login')
     }
     this.fetchPosts()
   },
   methods: {
     fetchPosts() {
-      const token = sessionStorage.getItem('token')
+      const token = localStorage.getItem('token')
       const URL = 'http://localhost:8000/api/posts'
       this.$axios({
         method: 'GET',
@@ -113,7 +119,7 @@ export default {
         })
     },
     fetchPost(id) {
-      const token = sessionStorage.getItem('token')
+      const token = localStorage.getItem('token')
       const URL = `http://localhost:8000/api/posts/${id}`
       return this.$axios({
         method: 'GET',
@@ -131,7 +137,7 @@ export default {
       // eslint-disable-next-line
       const { content } = this
       const data = { content }
-      const token = sessionStorage.getItem('token')
+      const token = localStorage.getItem('token')
       const URL = 'http://localhost:8000/api/posts'
       this.$axios({
         method: 'POST',
@@ -153,7 +159,7 @@ export default {
         })
     },
     deletePost(id) {
-      const token = sessionStorage.getItem('token')
+      const token = localStorage.getItem('token')
       const URL = `http://localhost:8000/api/posts/${id}`
       this.$axios({
         method: 'DELETE',

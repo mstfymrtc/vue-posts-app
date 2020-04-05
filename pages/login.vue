@@ -23,11 +23,14 @@ export default {
       password: ''
     }
   },
+  mounted() {
+    //auth middleware kullanılması gerekiyor, temp çözüm
+    const token = localStorage.getItem('token')
+    if (token) {
+      this.$router.push('/app')
+    }
+  },
   methods: {
-    /**
-     * [loginUser used to login the user]
-     * @return {[type]} [none]
-     */
     loginUser() {
       const { userName, password } = this
       const URL = 'http://localhost:8000/api/authenticate'
@@ -44,7 +47,7 @@ export default {
             throw res
             return
           }
-          sessionStorage.setItem('token', res.data.user.token)
+          localStorage.setItem('token', res.data.user.token)
           this.$router.push('/app')
         })
         .catch(err => {
