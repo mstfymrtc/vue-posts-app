@@ -25,7 +25,11 @@
             <td class="text-truncate" style="max-width:200px">{{ props.item.content }}</td>
             <td>
               <v-btn color="info" @click="showPostDetails(props.item.id)">DETAILS</v-btn>
-              <v-btn color="error" @click="deletePost(props.item.id)">DELETE</v-btn>
+              <v-btn
+                v-if="currentUserId==props.item.author_id"
+                color="error"
+                @click="deletePost(props.item.id)"
+              >DELETE</v-btn>
             </td>
           </tr>
         </template>
@@ -65,9 +69,11 @@
   </v-layout>
 </template>
 <script>
+import decode from 'jwt-decode'
 export default {
   data() {
     return {
+      currentUserId: 0,
       dialog: false,
       post: {},
       content: '',
@@ -97,6 +103,9 @@ export default {
       localStorage.removeItem('token')
       this.$router.push('/login')
     }
+    var decodedToken = decode(token)
+    this.currentUserId = decodedToken.UserId
+
     this.fetchPosts()
   },
   methods: {
